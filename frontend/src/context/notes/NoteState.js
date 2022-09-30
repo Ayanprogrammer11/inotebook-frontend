@@ -12,7 +12,7 @@ export default function NoteState(props) {
 const {showToast} = props;
   // Functton for fetching All Notes
   const getNotes = async () => {
-    const response = await fetch(`${host}/api/notes/fetchallnotes`, {
+    const response = await fetch(`${host}/api/v1/notes/fetchallnotes`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +26,7 @@ const {showToast} = props;
   };
 // 
   const getNote = async (id) => {
-    const response = await fetch(`${host}/api/notes/getnote/${id}`, {
+    const response = await fetch(`${host}/api/v1/notes/getnote/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -53,7 +53,7 @@ const {showToast} = props;
   // Function for Adding a Note
   const addNote = async (title, description, tag) => {
   
-    const response = await fetch(`${host}/api/notes/addnote`, {
+    const response = await fetch(`${host}/api/v1/notes/addnote`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const {showToast} = props;
 
   // Function for deleting a Note
   const deleteNote = async (id) => {
-    const response = await fetch(`${host}/api/notes/deletenote/${id}`, {
+    const response = await fetch(`${host}/api/v1/notes/deletenote/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +90,7 @@ const {showToast} = props;
   };
   // Function for editing a Note
   const editNote = async (id, title, description, tag) => {
-    const response = await fetch(`${host}/api/notes/updatenote/${id}`, {
+    const response = await fetch(`${host}/api/v1/notes/updatenote/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

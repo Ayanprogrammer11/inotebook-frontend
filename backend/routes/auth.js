@@ -11,7 +11,7 @@ let fetchuser = require('../middleware/fetchuser');
 const JWT_SECRET = "AYANISAGOODB$OY";
 
 
-// ROUTE: 1 - Creating a User using: POST "/api/auth/createUser" - No Login Required
+// ROUTE: 1 - Creating a User using: POST "/api/v1/auth/createUser" - No Login Required
 router.post('/createUser', [
     // Validations
     body("name", "Enter a valid name").isLength({min: 3}),
@@ -62,7 +62,7 @@ router.post('/createUser', [
 
 })
 
-// ROUTE: 2 - Authenticating a User using: POST "/api/auth/login" - No Login Required
+// ROUTE: 2 - Authenticating a User using: POST "/api/v1/auth/login" - No Login Required
 
 router.post('/login', [
     // Validations
@@ -113,7 +113,7 @@ router.post('/login', [
 })
 
 
-// ROUTE: 3 - Getting Logged in User Details using POST:  "/api/auth/getuser" - Login Required
+// ROUTE: 3 - Getting Logged in User Details using POST:  "/api/v1/auth/getuser" - Login Required
 
 router.post('/getuser', fetchuser, async (req, res) => {
 
@@ -128,7 +128,7 @@ router.post('/getuser', fetchuser, async (req, res) => {
 })
 
 
-// ROUTE: 4 - Deleting a User Account using DELETE:  "/api/auth/deleteuser" - Account Creation Required
+// ROUTE: 4 - Deleting a User Account using DELETE:  "/api/v1/auth/deleteuser" - Account Creation Required
 router.delete('/deleteuser', fetchuser, async (req, res) => {
   try {
     let userId = req.user.id;
