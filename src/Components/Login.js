@@ -26,12 +26,12 @@ const Login = (props) => {
             body: JSON.stringify({email: credentials.email, password: credentials.password})
         });
         const json = await response.json();
-        console.log(json);
+        
         if(json.success) {
             // Set the AuthToken to the Local Storage, So the user would not have to enter his/her credentials again and again when visiting the website
             localStorage.setItem("token", json.authtoken);
-            console.log(localStorage.getItem("token"));
-            console.log(json.success)
+            
+            
             // Navigate to the Root route of the application
             // showAlert("Logged in Successfully!", "success");
             showToast.success("Loggged in Successfully")

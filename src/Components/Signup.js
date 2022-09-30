@@ -37,7 +37,7 @@ const Signup = (props) => {
         });
         // Parsing the Json
         const json = await response.json();
-        console.log(json);
+        
         if(json.success) {
           localStorage.setItem("token", json.authToken);
           // console.log(json.success);

@@ -73,7 +73,7 @@ const {showToast} = props;
       body: JSON.stringify({email: feedback.email, title: feedback.title, message: feedback.message})
     });
    const json = await response.json();
-   console.log(json);
+   
    if(json.success) {
     // If feedback went successful then close the modal by using the "useRef" hook
     closeModal.current.click();

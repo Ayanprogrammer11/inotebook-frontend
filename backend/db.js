@@ -5,9 +5,9 @@ const mongoURI = "mongodb+srv://AyanProgrammer11:Apple123@inotebookcluster.nzmaw
 const connectToMongo = async () => {
     // console.log("Function running")
     try {
-        console.log("Inside try");
+        
     await mongoose.connect(mongoURI);
-    console.log("Connected to Mongo Successfully");
+    
     } catch(err) {
         // console.log("Inside catch")
         console.log("Failed to Connect");

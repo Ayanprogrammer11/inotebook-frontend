@@ -21,7 +21,7 @@ const {showToast} = props;
       },
     });
     const json = await response.json();
-    console.log(json);
+    
     setNotes(json);
     // setLoading(false);
   };
@@ -35,7 +35,7 @@ const {showToast} = props;
       },
     });
     const json = await response.json();
-    console.log(json);
+    
     if(json.code === 401) {
       showToast.error("Permission Not Granted", {duration: 4000});
      
@@ -63,7 +63,7 @@ const {showToast} = props;
       body: JSON.stringify({ title, description, tag}),
     });
     const json =  await response.json();
-    console.log(json);
+    
     setNotes(notes.concat(json))
   
     // const note = {
@@ -89,13 +89,13 @@ const {showToast} = props;
       }
     });
     const json = await response.json();
-    console.log(json);
-    console.log("Deleting a Note with id: " + id);
+    
+    
     const newNotes = notes.filter((note) => {
       return note._id !== id;
     });
     setNotes(newNotes);
-    console.log("Note Deleted");
+    
   };
   // Function for editing a Note
   const editNote = async (id, title, description, tag) => {
@@ -108,7 +108,7 @@ const {showToast} = props;
       body: JSON.stringify({ title, description, tag }),
     });
     const json = await response.json();
-    console.log(json);
+    
     let newNotes = JSON.parse(JSON.stringify(notes));
     // Logic for Client-side Editing
     for (let index = 0; index < newNotes.length; index++) {
