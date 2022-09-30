@@ -144,7 +144,8 @@ try {
 
     let note = await Notes.findById(req.params.id)
     if(!note) {
-        return res.status(404).send("Not Found");
+        code = 404;
+        return res.status(404).send({code, error: "Not Found"});
     }
     if(note.user.toString() !== req.user.id) {
         code = 401;
@@ -152,7 +153,8 @@ try {
     }
 
     // note = await Notes.findByIdAndUpdate(req.params.id, {$set: newNote}, {new: true})
-    res.json(note);
+    code = 200;
+    res.json({code, note});
 } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Server Error");

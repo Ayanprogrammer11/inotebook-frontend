@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const FeedbackSchema = new Schema({
+const ContactSchema = new Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user"
@@ -10,7 +10,7 @@ const FeedbackSchema = new Schema({
         type: String,
         required: true
     },
-    title: {
+    subject: {
         type: String,
         required: true
     },
@@ -20,6 +20,6 @@ const FeedbackSchema = new Schema({
     }
 })
 
-const Feedback = mongoose.model("feedback", FeedbackSchema);
+const Contact = mongoose.model("contact", ContactSchema);
 
-module.exports = Feedback;
+module.exports = Contact;

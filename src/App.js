@@ -20,6 +20,7 @@ import Footer from './Components/Footer';
 import SeparateNote from './Components/SeparateNote';
 import LoadingBar from "react-top-loading-bar"
 import toast, { Toaster } from 'react-hot-toast';
+import ContactUs from './Components/ContactUs';
 
 
 function App() {
@@ -92,7 +93,7 @@ function App() {
   
     <NoteState showToast={toast}>
       <BrowserRouter>
-      <Navbar/>
+      <Navbar showToast={toast}/>
       <LoadingBar
         height={3}
         color='red'
@@ -112,8 +113,9 @@ function App() {
              <Route exact path="/about" element={<About setProgress={setProgress} />} />
              <Route exact path="/login" element={<Login setProgress={setProgress}  showToast={toast}/>} />
              <Route exact path="/signup" element={<Signup setProgress={setProgress}  showToast={toast}/>} />
-             <Route exact path="/myaccount" element={<MyAccount setProgress={setProgress} />} />
+             <Route exact path="/myaccount" element={<MyAccount setProgress={setProgress} showToast={toast}/>} />
              <Route exact path="/note/:id" element={<SeparateNote setProgress={setProgress} />} />
+             <Route exact path="/contactus" element={<ContactUs setProgress={setProgress} showToast={toast}/>} />
              <Route path="*" element={<NotFound />} />
 
           </Routes>

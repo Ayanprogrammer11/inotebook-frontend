@@ -17,7 +17,10 @@ const Notes = (props) => {
   useEffect( () => {
     if(localStorage.getItem("token")) {
       setProgress(20);
-      getNotes();
+     
+        getNotes();
+
+     
  setProgress(100);
         setLoading(false);
       

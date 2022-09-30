@@ -1,11 +1,11 @@
 import React, { useContext, useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 import noteContext from '../context/notes/noteContext';
 
 
 const AddNote = (props) => {
 
-
+const Navigate = useNavigate();
   // States
   const [note, setNote] = useState({title: "", description: "", tag: ""})
   const [ing, setIng] = useState("Add Note");
@@ -39,6 +39,9 @@ const {addNote} = context;
         if(slicedTitle[0].length > 38 || slicedDescription[0].length > 38 || slicedTag[0].length > 38) {
           //  showAlert("Please Enter a sensible note", "danger");
           showToast.error("Please Enter a Sensible Note")
+        }else if(!localStorage.getItem("token")) {
+          Navigate("/login")
+          showToast.error("Session Timed out! Login or Signup again");
         }  else {
 
 

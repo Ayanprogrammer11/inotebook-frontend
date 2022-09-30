@@ -38,16 +38,14 @@ const {showToast} = props;
     console.log(json);
     if(json.code === 401) {
       showToast.error("Permission Not Granted", {duration: 4000});
-      setSeparateNote({
-        title: "Permission Not Granted",
-        description: "Permission Not Granted",
-        tag: "Permission Not Granted"
-      })
-    } else {
+     
+    }  
+    else {
     setSeparateNote({
-      title: json.title,
-      description: json.description,
-      tag: json.tag
+      title: json.note.title,
+      description: json.note.description,
+      tag: json.note.tag,
+      date: json.note.date
     })
   }
     // setNotes(json);

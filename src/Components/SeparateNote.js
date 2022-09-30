@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense, lazy } from 'react';
 
 import { useParams, useNavigate } from 'react-router-dom'
 
@@ -27,7 +27,7 @@ const SeparateNote = (props) => {
 
   // Destructuring
   const {getNote, separateNote} = context;
-  const {title, description, tag} = separateNote;
+  const {date, title, description, tag} = separateNote;
 
 
     useEffect(() => {
@@ -38,6 +38,7 @@ const SeparateNote = (props) => {
         } else {
           // Get the notes from the getNote function and pass "id" as a argument (This function is coming from a context named "noteContext" )
         getNote(id);
+      
         // Once notes fetched then set the Loading bar to 100
         setProgress(100);
         // Set the skeleton loading to false
@@ -50,6 +51,9 @@ const SeparateNote = (props) => {
     
     <div className="text-center text-4xl font-extrabold hover:transition-all hover:text-blue-500">
         Preview Note
+    </div>
+    <div className="date text-1xl text-center my-2">
+      <h4>Created on: {date}</h4>
     </div>
     
     <div className="mx-20 note my-20">

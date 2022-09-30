@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 let fetchuser = require('../middleware/fetchuser');
 
 
-const JWT_SECRET = "AYANISAGOODB$Y";
+const JWT_SECRET = "AYANISAGOODB$OY";
 
 
 // ROUTE: 1 - Creating a User using: POST "/api/auth/createUser" - No Login Required
@@ -16,19 +16,22 @@ router.post('/createUser', [
     // Validations
     body("name", "Enter a valid name").isLength({min: 3}),
     body("email", "Enter a valid Email").isEmail(),
-    body("password", "Password must be atleast 5 characters").isLength({min: 5})
+    body("password", "Password must be atleast 10 characters").isLength({min: 10})
 ], async (req, res) => {
   let success = false;
+  let code = null;
     // If there are errors return Bad Request and the errors
     const errors = validationResult(req);
     if(!errors.isEmpty()) {
-            return res.status(400).json({success, errors: errors.array()})
+            code = 404;
+            return res.status(404).json({success,code, errors: errors.array()})
     }
     // Check whether a User with this email exist already or not and then take the appropriate action
     try {
     let user = await User.findOne({email: req.body.email});
     if(user) {
-        return res.status(400).json({success, error: "User with this email already exists"})
+      code = 400;
+        return res.status(400).json({success,code, error: "User with this email already exists"})
     } 
     // Salting and Hashing the Password
     const salt = await bcrypt.genSalt(10);
@@ -52,7 +55,9 @@ router.post('/createUser', [
 
     } catch(err) {
         console.error(err)
-        res.status(500).send('An Error Ocurred');
+        success = false;
+        code = 500;
+        res.status(500).send({success, code, error: 'Server Error'});
     }
 
 })
@@ -113,7 +118,7 @@ router.post('/login', [
 router.post('/getuser', fetchuser, async (req, res) => {
 
   try {
-    userId = req.user.id;
+    let userId = req.user.id;
     const user = await User.findById(userId);
     res.send(user)
   } catch (error) {
@@ -126,14 +131,24 @@ router.post('/getuser', fetchuser, async (req, res) => {
 // ROUTE: 4 - Deleting a User Account using DELETE:  "/api/auth/deleteuser" - Account Creation Required
 router.delete('/deleteuser', fetchuser, async (req, res) => {
   try {
-    userId = req.user.id;
-    const user = await User.findByIdAndDelete(userId);
-    res.status(200).send({success: "User Deleted"})
+    let userId = req.user.id;
+
+    let user = await User.findById(userId);
+    if(!user) {
+      return res.status(404).json({error: "User doesn't exist"})
+    }
+    if(user.id.toString() !== userId) {
+        return  res.status(401).json({error: "Access Denied!"});
+    }
+    user = await User.findByIdAndDelete(userId);
+    return res.status(200).json({message: "User Deleted", user})
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Internal Server Error");
   }
 });
+
+
 
 
 module.exports = router

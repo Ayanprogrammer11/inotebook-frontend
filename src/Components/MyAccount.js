@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom';
 
-const MyAccount = () => {
+const MyAccount = (props) => {
+  const {showToast} = props;
    const Navigate = useNavigate();
 const closeAfterDeletion = useRef(null);
      const [userDetails, setUserDetails] = useState({name: "", email: ""});
@@ -39,6 +40,7 @@ const closeAfterDeletion = useRef(null);
         closeAfterDeletion.current.click();
         setIng("Delete Account")
         Navigate("/signup");
+        showToast.success('Account Deleeted!')
       }
 
 fetchData();

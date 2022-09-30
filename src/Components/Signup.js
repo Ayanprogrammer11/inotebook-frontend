@@ -39,21 +39,33 @@ const Signup = (props) => {
         const json = await response.json();
         console.log(json);
         if(json.success) {
-          // localStorage.setItem("token", json.authtoken);
+          localStorage.setItem("token", json.authToken);
           // console.log(json.success);
           // console.log(localStorage.getItem("token"));
           // showAlert("Account Created Successfully!", "success");
-          showToast.success("Account Created Successfully!")
           setIng("Create Account");
+
+          if(localStorage.getItem("token")) {
+          showToast.success("Account Created Successfully!")
+          
           // setTimeout(() => {
-            Navigate("/login");
+            
+            Navigate("/");
+            } else {
+              // Navigate("/signup");
+              showToast.error("There was an error creating your account, Try again", {duration: 5000})
+            }
           // }, 1000);
             
-        } else if (json.error === "User with this email already exists") {
-          setIng("Create Account")
+        } else if (json.code === 400) {
           // showAlert("A User with this email already exists", "danger");
           showToast.error("A User with this email aready exist");
-        } else {
+        } else if (json.code === 500) {
+          showToast.error(json.error);
+        } else if(json.code === 404) {
+          showToast.error("Password must be atleast 10 characters")
+        }
+         else {
           showToast.error("Server Error");
         }
     }

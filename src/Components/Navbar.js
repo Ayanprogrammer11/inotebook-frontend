@@ -8,9 +8,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Capitalize, getFirstName } from "../UsefulFunctions"
 
 
-const Navbar = () => {
+const Navbar = (props) => {
 
-
+const {showToast} = props;
   // States
   const [userName, setUserName] = useState("");
   const [feedback, setFeedback] = useState({email: "", title: "", message: ""});
@@ -29,6 +29,7 @@ const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     Navigate("/login");
+    showToast.success("Logged out Successfully")
   }
 
   // Using hte useLocation hook of react-router-dom to check the location of the page
@@ -126,6 +127,9 @@ const Navbar = () => {
 
 
         </li>
+        <li class="nav-item p-2">
+          <Link class="nav-link text-white" to="/contactus">Contact Us</Link>
+        </li>
       </ul>
       {/* if the user is not logged in then show this in the navbar */}
       {!localStorage.getItem("token") ?  <div className="flex flex-end">
@@ -144,7 +148,7 @@ const Navbar = () => {
         <ul class=" dropdown-menu min-w-max hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none"
           aria-labelledby="dropdownMenuButton1">
           <li>
-            <button class=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100">Feedback</button
+            <Link to="/contactus" class=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100">Contact us</Link
             >
           </li>
           <li>
