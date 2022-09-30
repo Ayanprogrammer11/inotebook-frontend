@@ -3,11 +3,7 @@ import { useNavigate } from 'react-router-dom'
 const Signup = (props) => {
   const {showToast} = props;
     const [credentials, setCredentials] = useState({name: "", email: "", password: ""});
-    const [ing, setIng] = useState("Create Account");
-
-
-    
-
+    const [ing, setIng] = useState("Signup");
 
 
     // For Navigatng when the Signup is Successful
@@ -19,12 +15,13 @@ const Signup = (props) => {
         Navigate("/");
         showToast.success("Already Logged In");
       } 
-    }, [])
+      // eslint-disable-next-line
+    }, []);
 
 
     // A Function to run when account is being created
     const handleSubmit = async (e) => {
-      setIng("Creating Account...")
+      setIng("Signing up...")
       // To Prevent the page from reloading when the Form is submitted
         e.preventDefault();
         // Making a POST: Request to an Api to create a User on the Database
@@ -40,24 +37,16 @@ const Signup = (props) => {
         console.log(json);
         if(json.success) {
           localStorage.setItem("token", json.authToken);
-          // console.log(json.success);
-          // console.log(localStorage.getItem("token"));
-          // showAlert("Account Created Successfully!", "success");
-          setIng("Create Account");
+          setIng("Signup");
 
-          if(localStorage.getItem("token")) {
+         
           showToast.success("Account Created Successfully!")
           
           // setTimeout(() => {
             
             Navigate("/");
-            } else {
-              // Navigate("/signup");
-              showToast.error("There was an error creating your account, Try again", {duration: 5000})
-            }
-          // }, 1000);
-            
-        } else if (json.code === 400) {
+        } 
+        else if (json.code === 400) {
           // showAlert("A User with this email already exists", "danger");
           showToast.error("A User with this email aready exist");
         } else if (json.code === 500) {
@@ -68,6 +57,9 @@ const Signup = (props) => {
          else {
           showToast.error("Server Error");
         }
+     
+            
+         
     }
     const onChange = (event) => {
         setCredentials({...credentials, [event.target.name]: event.target.value});
@@ -79,7 +71,7 @@ const Signup = (props) => {
   <div class="w-full max-w-md space-y-8">
     <div>
       
-      <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Create a Account on iNotebook</h2>
+      <h2 class="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">Signup on iNotebook</h2>
       
       
     </div>

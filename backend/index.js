@@ -11,13 +11,13 @@ app.use(express.json());
 
 
 // Available Routes
-app.use('/api/auth', require('./routes/auth'))
-app.use('/api/notes', require('./routes/notes'))
-app.use('/api/contact', require("./routes/contact"))
+app.use('/api/v1/auth', require('./routes/auth'))
+app.use('/api/v1/notes', require('./routes/notes'))
+app.use('/api/v1/contact', require("./routes/contact"))
 
 
 
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`iNotebook listening at http://localhost:${port}`)
 })

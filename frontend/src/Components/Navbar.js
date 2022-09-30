@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 // Importing react-router-dom hooks
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // Importing my hand-written functions which become useful in some cases (in order not to write the code again and again)
 import { Capitalize, getFirstName } from "../UsefulFunctions"
@@ -13,11 +13,13 @@ const Navbar = (props) => {
 const {showToast} = props;
   // States
   const [userName, setUserName] = useState("");
+  // eslint-disable-next-line
   const [feedback, setFeedback] = useState({email: "", title: "", message: ""});
 
 
 
 // Use Ref
+// eslint-disable-next-line
   const closeModal = useRef(null);
 
 
@@ -32,8 +34,6 @@ const {showToast} = props;
     showToast.success("Logged out Successfully")
   }
 
-  // Using hte useLocation hook of react-router-dom to check the location of the page
-  let location = useLocation();
 
   // Fetch data to say Welcome, {userName} to the user
  
@@ -50,65 +50,21 @@ const {showToast} = props;
       setUserName(Capitalize(getFirstName(json.name)))
     }
 
-    // Fetch the Data
+    // Call the function to Fetch the Data
     fetchData();
 
    }, [])
 
 
-// eslint-disable-next-line
-  const onchange = (e) => {
-    setFeedback({...feedback, [e.target.name]: e.target.value})
-  }
 
-// eslint-disable-next-line
-  const sendFeedback = async (e) => {
-    e.preventDefault();
-    const response = await fetch("http://localhost:5000/api/feedback/addfeedback", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token")
-      },
-      body: JSON.stringify({email: feedback.email, title: feedback.title, message: feedback.message})
-    });
-   const json = await response.json();
-   console.log(json);
-   if(json.success) {
-    // If feedback went successful then close the modal by using the "useRef" hook
-    closeModal.current.click();
-
-   }
-
-  }
   return (
     <>
      
      <nav class=" w-full flex flex-wrap items-center justify-between py-3 bg-gray-900 text-gray-200 shadow-lg navbar navbar-expand-lg navbar-light">
   <div class="container-fluid w-full flex flex-wrap items-center justify-between px-6">
-  <button
-      class="navbar-toggler text-gray-200 border-0 hover:shadow-none hover:no-underline py-1 px-1 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none focus:no-underline"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent1"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <svg
-        aria-hidden="true"
-        focusable="false"
-        data-prefix="fas"
-        data-icon="bars"
-        class="w-6"
-        role="img"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 448 512"
-      >
-        <path
-          fill="currentColor"
-          d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
-        ></path>
+  <button class="navbar-toggler text-gray-200 border-0 hover:shadow-none hover:no-underline py-1 px-1 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none focus:no-underline" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"s>
+      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="w-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+        <path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
       </svg>
       </button>
     <div class="collapse navbar-collapse flex-grow items-center" id="navbarSupportedContent1">
@@ -116,7 +72,7 @@ const {showToast} = props;
       <ul class="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
         <li class="nav-item p-2">
 
-          {/* Link for Home */}
+    
 
           <Link class="nav-link text-white" to="/">Home</Link>
         </li>
@@ -155,7 +111,7 @@ const {showToast} = props;
             <Link class=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" to="/myaccount">My Account</Link>
           </li>
           <li>
-            <button class=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" onClick={handleLogout}>Logout</button>
+            <button class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" onClick={handleLogout}>Logout</button>
           </li>
         </ul>
       </div>
@@ -167,10 +123,8 @@ const {showToast} = props;
 
 
     </div>
-    </div>
-
-    
-</nav>     
+    </div> 
+</nav> 
     
        
 
