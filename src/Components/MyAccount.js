@@ -36,7 +36,7 @@ const closeAfterDeletion = useRef(null);
         })
         const json = await response.json();
         localStorage.removeItem("token")
-        console.log(json);
+        
         closeAfterDeletion.current.click();
         setIng("Delete Account")
         Navigate("/signup");

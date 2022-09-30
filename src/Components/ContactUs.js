@@ -44,7 +44,7 @@ const handleSubmit = async (e) => {
              });
              const json = await response.json();
              setEmail(json.email);
-             console.log(json);
+             
 
         }
         fetchUserEmail();

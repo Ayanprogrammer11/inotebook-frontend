@@ -19,5 +19,5 @@ app.use('/api/contact', require("./routes/contact"))
 
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  
 })

@@ -5,7 +5,7 @@ const ToastState = (props) => {
 
 const displayToast = (message) => {
     let alert = toast.success(message);
-    console.log(alert);
+    
     return alert;
 }
 

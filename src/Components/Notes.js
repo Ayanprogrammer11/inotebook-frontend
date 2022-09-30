@@ -40,7 +40,7 @@ const Notes = (props) => {
     setNote({...note, [event.target.name]: event.target.value})
 }
 const handleClick = (e) => {
-  console.log("Updating the note", note);
+  
     refClose.current.click();
     showToast.promise(editNote(note.id, note.etitle, note.edescription, note.etag), {
       loading: "Updating Note....",
