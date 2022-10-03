@@ -35,7 +35,7 @@ const handleSubmit = async (e) => {
             Navigate("/login")
         }
         const fetchUserEmail = async () => {
-             const response = await fetch("http://localhost:5000/api/v1/auth/getuser", {
+             const response = await fetch("https://inotebookbackends.herokuapp.com/api/v1/auth/getuser", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

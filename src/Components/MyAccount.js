@@ -10,7 +10,7 @@ const closeAfterDeletion = useRef(null);
   
     const fetchData = async () =>{
 
-        const response = await fetch("http://localhost:5000/api/v1/auth/getuser", {
+        const response = await fetch("https://inotebookbackends.herokuapp.com/api/v1/auth/getuser", {
           method: "POST",
           headers: {
               "Content-Type": "application/json",
@@ -27,7 +27,7 @@ const closeAfterDeletion = useRef(null);
       const deleteUser = async (e) => {
         e.preventDefault();
         setIng("Deleting Account...")
-        const response = await fetch("http://localhost:5000/api/v1/auth/deleteuser", {
+        const response = await fetch("https://inotebookbackends.herokuapp.com/api/v1/auth/deleteuser", {
           method: "DELETE",
           headers: {
               "Content-Type": "application/json",
