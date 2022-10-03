@@ -78,11 +78,11 @@ const {showToast} = props;
         </li>
 
           {/* Link for About */}
-        <li class="nav-item p-2">
+        {/* <li class="nav-item p-2">
           <Link class="nav-link text-white" to="/about">About</Link>
 
 
-        </li>
+        </li> */}
         <li class="nav-item p-2">
           <Link class="nav-link text-white" to="/contactus">Contact Us</Link>
         </li>
