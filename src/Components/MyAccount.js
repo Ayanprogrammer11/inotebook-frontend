@@ -1,4 +1,5 @@
 import React, { useState, useRef } from 'react'
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const MyAccount = (props) => {
@@ -43,7 +44,11 @@ const closeAfterDeletion = useRef(null);
         showToast.success('Account Deleeted!')
       }
 
-fetchData();
+      useEffect(() => {
+        fetchData();
+      }, [])
+
+
 
 
 

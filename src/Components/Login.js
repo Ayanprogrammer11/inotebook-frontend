@@ -29,11 +29,11 @@ const Login = (props) => {
         console.log(json);
         if(json.success) {
             // Set the AuthToken to the Local Storage, So the user would not have to enter his/her credentials again and again when visiting the website
-            if(!localStorage.getItem("token")) {
+            // if(!localStorage.getItem("token")) {
               localStorage.setItem("token", json.authtoken);
-            } else {
-              showToast.error("error Occured")
-            }
+            
+              // showToast.error("error Occured")
+            
           
             console.log(localStorage.getItem("token"));
             console.log(json.success)
