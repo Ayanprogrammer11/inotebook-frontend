@@ -15,7 +15,8 @@ const Login = (props) => {
     }, [])
     
     const handleSubmit = async (e) => {
-      e.preventDefault();
+      try {
+        e.preventDefault();
       // setIng("Logging in....")
       
         const response = await fetch("https://inotebookbackends.herokuapp.com/api/v1/auth/login", {
@@ -54,6 +55,11 @@ const Login = (props) => {
           // showAlert("Invalid Credentials", "danger");
           showToast.error("Invalid Credentials", {duration: 2000});
         }
+      } catch (error) {
+        console.error(error);
+        showToast.success("Error occurred")
+      }
+      
     }
     const onChange = (event) => {
         setCredentials({...credentials, [event.target.name]: event.target.value});
