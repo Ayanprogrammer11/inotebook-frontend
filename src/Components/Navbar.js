@@ -92,7 +92,7 @@ const {showToast} = props;
 
         </li> */}
         <li class="nav-item p-2">
-          <Link class="nav-link text-white" to={!localStorage.getItem("token") ? "/login" : "/home"}>Contact Us</Link>
+          <Link class="nav-link text-white" to={!localStorage.getItem("token") ? "/login" : "/contactus"}>Contact Us</Link>
         </li>
       </ul>
       {/* if the user is not logged in then show this in the navbar */}
