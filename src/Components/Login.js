@@ -50,17 +50,25 @@ const Login = (props) => {
             else if(json.code === 500) {
                 // showAlert("Server Error", "danger");
                 showToast.error("Server Error", {duration: 3000});
+              setLoading(false);
+              setIng("Sign in");
             } else if (json.code === 400) {
               showToast.error("Invalid Credentials");
+              setLoading(false);
+              setIng("Sign in");
             }
          else {
           setIng("Sign in");
           // showAlert("Invalid Credentials", "danger");
           showToast.error("Invalid Credentials", {duration: 2000});
+           setLoading(false);
+           setIng("Sign in");
         }
       } catch (error) {
         console.error(error);
-        showToast.success("Error occurred")
+        showToast.success("Error occurred");
+        setLoading(false);
+        setIng("Sign in");
       }
       
     }
