@@ -6,11 +6,14 @@ import Loading from './Loading'
 
 const ContactUs = (props) => {
       const [email, setEmail] = useState("");
-      const [loading, setLoading] = useState(true);
+      const [loading, setLoading] = useState({fetching: true, submit: false});
      const Navigate = useNavigate();
 const {showToast, setProgress} = props;
 
 const handleSubmit = async (e) => {
+    setLoading({
+        submit: true
+    });
     // const email = document.getElementById("email").value;
     const subject = document.getElementById("subject").value;
     const message = document.getElementById("message").value;
@@ -28,11 +31,15 @@ const handleSubmit = async (e) => {
     if(json.success) {
         showToast.success("Received:)")
     }
-    Navigate("/");
+    Navigate("/home");
+    setLoading({
+        submit: false
+    });
 }
 
 
     useEffect(() => {
+        
         if(!localStorage.getItem("token")) {
             Navigate("/login")
         }
@@ -52,7 +59,9 @@ const handleSubmit = async (e) => {
         setProgress(10);
         fetchUserEmail().then(() => {
             setProgress(100);
-            setLoading(false);
+            setLoading({
+                fetching: false
+            });
         });
     }, [])
 
@@ -60,7 +69,7 @@ const handleSubmit = async (e) => {
 
   return (
     <>
-    {<Loading /> && loading === true ? <Loading /> : 
+    {<Loading /> && loading.fetching === true ? <Loading /> : 
     <section class="bg-white dark:bg-gray-900">
     <div class="py-8 lg:py-16 px-4 mx-auto max-w-screen-md">
         <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-center text-gray-900 dark:text-white">Contact Us</h2>
@@ -78,7 +87,7 @@ const handleSubmit = async (e) => {
                 <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Your message</label>
                 <textarea id="message" rows="6" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Leave a comment..." minLength={10}></textarea>
             </div>
-            <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg sm:w-fit hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 bg-blue-800 dark:hover:bg-blue-700 dark:focus:ring-blue-800" >Send message</button>
+            <button type="submit" class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg sm:w-fit hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 bg-blue-800 dark:hover:bg-blue-700 dark:focus:ring-blue-800" disabled={loading.submit}>Send message</button>
         </form>
     </div>
   </section>

@@ -5,6 +5,7 @@ const Login = (props) => {
     const Navigate = useNavigate();
     const [credentials, setCredentials] = useState({email: "", password: ""});
     const [ing, setIng] = useState("Sign in");
+    const [loading, setLoading] = useState(false);
 
 
     useEffect(() => {
@@ -15,9 +16,10 @@ const Login = (props) => {
     }, [])
     
     const handleSubmit = async (e) => {
+      setLoading(true);
       try {
         e.preventDefault();
-      // setIng("Logging in....")
+      setIng("Signing in....")
       
         const response = await fetch("https://inotebookbackends.herokuapp.com/api/v1/auth/login", {
             method: "POST",
@@ -40,9 +42,10 @@ const Login = (props) => {
             console.log(json.success)
             // Navigate to the Root route of the application
             // showAlert("Logged in Successfully!", "success");
-            showToast.success("Loggged in Successfully")
+            showToast.success("Logged in Successfully")
             setIng("Sign in");
             Navigate("/home");
+            setLoading(false);
         }
             else if(json.code === 500) {
                 // showAlert("Server Error", "danger");
@@ -98,7 +101,7 @@ const Login = (props) => {
 
       <div>
 
-        <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        <button type="submit" disabled={loading} class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
           <span class="absolute inset-y-0 left-0 flex items-center pl-3">
 
              <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
