@@ -42,7 +42,7 @@ const Login = (props) => {
             // showAlert("Logged in Successfully!", "success");
             showToast.success("Loggged in Successfully")
             setIng("Sign in");
-            Navigate("/");
+            Navigate("/home");
         }
             else if(json.code === 500) {
                 // showAlert("Server Error", "danger");

@@ -3,12 +3,20 @@ import React, { useState, useEffect, useRef } from 'react';
 
 // Importing react-router-dom hooks
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useLocation } from 'react-router-dom';
 // Importing my hand-written functions which become useful in some cases (in order not to write the code again and again)
 import { Capitalize, getFirstName } from "../UsefulFunctions"
 
 
 const Navbar = (props) => {
+const location = useLocation();
+  const checkAuth = () => {
+    if(!localStorage.getItem("token")) {
+      Navigate("/login")
+    } else {
+      Navigate("/home");
+    }
+  }
 
 const {showToast} = props;
   // States
@@ -53,7 +61,7 @@ const {showToast} = props;
     // Call the function to Fetch the Data
     fetchData();
 
-   }, [])
+   }, [location.pathname])
 
 
 
@@ -74,7 +82,7 @@ const {showToast} = props;
 
     
 
-          <Link class="nav-link text-white" to="/">Home</Link>
+          <button class="nav-link text-white" onClick={checkAuth}>Home</button>
         </li>
 
           {/* Link for About */}
@@ -84,7 +92,7 @@ const {showToast} = props;
 
         </li> */}
         <li class="nav-item p-2">
-          <Link class="nav-link text-white" to="/contactus">Contact Us</Link>
+          <Link class="nav-link text-white" to={!localStorage.getItem("token") ? "/login" : "/home"}>Contact Us</Link>
         </li>
       </ul>
       {/* if the user is not logged in then show this in the navbar */}

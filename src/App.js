@@ -18,6 +18,7 @@ import SeparateNote from './Components/SeparateNote';
 import LoadingBar from "react-top-loading-bar"
 import toast, { Toaster } from 'react-hot-toast';
 import ContactUs from './Components/ContactUs';
+import Landing from './Components/Landing';
 
 
 function App() {
@@ -106,7 +107,8 @@ function App() {
           {/* {sayFeedback} */}
           <Routes>
 
-             <Route exact path="/" element={<Home setProgress={setProgress}  showToast={toast} />} />
+             <Route exact path="/" element={<Landing setProgress={setProgress}  showToast={toast} />} />
+             <Route exact path="/home" element={<Home setProgress={setProgress}  showToast={toast} />} />
              <Route exact path="/login" element={<Login setProgress={setProgress}  showToast={toast}/>} />
              <Route exact path="/signup" element={<Signup setProgress={setProgress}  showToast={toast}/>} />
              <Route exact path="/myaccount" element={<MyAccount setProgress={setProgress} showToast={toast}/>} />

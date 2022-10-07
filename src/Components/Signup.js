@@ -44,17 +44,21 @@ const Signup = (props) => {
           
           // setTimeout(() => {
             
-            Navigate("/");
-        } 
+            Navigate("/home");
+        }
         else if (json.code === 400) {
+          setIng("Signup")
           // showAlert("A User with this email already exists", "danger");
           showToast.error("A User with this email aready exist");
         } else if (json.code === 500) {
+          setIng("Signup")
           showToast.error(json.error);
         } else if(json.code === 404) {
+          setIng("Signup")
           showToast.error("Password must be atleast 10 characters")
         }
          else {
+          setIng("Signup")
           showToast.error("Server Error");
         }
      

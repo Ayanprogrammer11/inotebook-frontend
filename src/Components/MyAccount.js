@@ -1,13 +1,17 @@
 import React, { useState, useRef } from 'react'
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import Loading from './Loading';
 
 const MyAccount = (props) => {
-  const {showToast} = props;
+  const location = useLocation();
+  const {showToast, setProgress} = props;
    const Navigate = useNavigate();
 const closeAfterDeletion = useRef(null);
      const [userDetails, setUserDetails] = useState({name: "", email: ""});
      const [ing, setIng] = useState("Delete Account");
+     const [loading, setLoading] = useState(true);
   
     const fetchData = async () =>{
 
@@ -45,14 +49,21 @@ const closeAfterDeletion = useRef(null);
       }
 
       useEffect(() => {
-        fetchData();
-      }, [])
+        setProgress(10)
+        fetchData().then(() => {
+          setLoading(false);
+          setProgress(100);
+        });
+        // eslint-disable-next-line
+      }, [location.pathname])
 
 
 
 
 
   return (
+    <>
+    {<Loading /> && loading === true ? <Loading /> : 
     <>
     <h1 className="text-4xl font-bold text-center mb-4">Your Account</h1>
     <div class="-space-y-px rounded-md shadow-sm">
@@ -95,6 +106,9 @@ const closeAfterDeletion = useRef(null);
   </div>
 </div>
 </form>
+</>
+    }
+    
   </>
 
   )

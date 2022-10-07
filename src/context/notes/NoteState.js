@@ -61,7 +61,7 @@ const {showToast} = props;
       },
       body: JSON.stringify({ title, description, tag}),
     });
-    const json =  await response.json();
+    const json = await response.json();
     console.log(json);
     setNotes(notes.concat(json))
   

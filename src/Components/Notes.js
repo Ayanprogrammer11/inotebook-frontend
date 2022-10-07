@@ -18,11 +18,16 @@ const Notes = (props) => {
     if(localStorage.getItem("token")) {
       setProgress(20);
      
-        getNotes();
+        getNotes().then(() => {
+          setProgress(100);
+          setLoading(false);
+        }).catch(() => {
+          setProgress(0);
+          showToast.error("Error Occured")
+        });
 
      
- setProgress(100);
-        setLoading(false);
+ 
       
     }
       else {
@@ -110,20 +115,21 @@ const handleClick = (e) => {
   </div>
 </div>
  <h2 className="text-4xl text-black font-extrabold">Your Notes</h2>
-<div className="text-center text-1xl my-4">
+{/* <div className="text-center text-1xl my-4">
         {notes.length === 0 && <p className='text-muted font-weight-bold'>No Notes to Display</p>}
-        </div>
-        {<Loading /> && loading === true ? <Loading /> : ""}
-<div class="mx-auto container py-10 px-6 mx-50">
+        </div> */}
+        {<Loading /> && loading === true ? <Loading /> : 
+        
+        <div class="mx-auto container py-10 px-6 mx-50">
             <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
        
-       
-        
         {notes.map((note) => {
           return <NoteItem note={note} key={note._id} updatenote={updatenote} showToast={showToast}/>;
         })}
         </div>
         </div>
+        }
+
         </>
   )
 }
