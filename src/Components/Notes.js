@@ -122,7 +122,7 @@ const handleClick = (e) => {
         
         <div class="mx-auto container py-10 px-6 mx-50">
             <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-       
+       {notes.length === 0 ? "No Notes to Display" : ""}
         {notes.map((note) => {
           return <NoteItem note={note} key={note._id} updatenote={updatenote} showToast={showToast}/>;
         })}

@@ -4,6 +4,7 @@ const Signup = (props) => {
   const {showToast} = props;
     const [credentials, setCredentials] = useState({name: "", email: "", password: ""});
     const [ing, setIng] = useState("Signup");
+    const [loading, setLoading] = useState(false);
 
 
     // For Navigatng when the Signup is Successful
@@ -21,6 +22,7 @@ const Signup = (props) => {
 
     // A Function to run when account is being created
     const handleSubmit = async (e) => {
+      setLoading(true);
       setIng("Signing up...")
       // To Prevent the page from reloading when the Form is submitted
         e.preventDefault();
@@ -45,21 +47,26 @@ const Signup = (props) => {
           // setTimeout(() => {
             
             Navigate("/home");
+            setLoading(false);
         }
         else if (json.code === 400) {
           setIng("Signup")
+          setLoading(false);
           // showAlert("A User with this email already exists", "danger");
           showToast.error("A User with this email aready exist");
         } else if (json.code === 500) {
           setIng("Signup")
+          setLoading(false);
           showToast.error(json.error);
         } else if(json.code === 404) {
           setIng("Signup")
+          setLoading(false);
           showToast.error("Password must be atleast 10 characters")
         }
          else {
           setIng("Signup")
           showToast.error("Server Error");
+          setLoading(false);
         }
      
             
@@ -99,7 +106,7 @@ const Signup = (props) => {
 
       <div>
         <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-          <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3" disabled={loading}>
 
              <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path fill-rule="evenodd" d="M10 1a4.5 4.5 0 00-4.5 4.5V9H5a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2h-.5V5.5A4.5 4.5 0 0010 1zm3 8V5.5a3 3 0 10-6 0V9h6z" clip-rule="evenodd" />
