@@ -19,7 +19,7 @@ const handleSubmit = async (e) => {
     const message = document.getElementById("message").value;
 
     e.preventDefault();
-    const response = await fetch("https://inotebookbackends.herokuapp.com/api/v1/contact/addcontact", {
+    const response = await fetch("https://neon-rocky-continent.glitch.me/api/v1/contact/addcontact", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -44,7 +44,7 @@ const handleSubmit = async (e) => {
             Navigate("/login")
         }
         const fetchUserEmail = async () => {
-             const response = await fetch("https://inotebookbackends.herokuapp.com/api/v1/auth/getuser", {
+             const response = await fetch("https://neon-rocky-continent.glitch.me/api/v1/auth/getuser", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

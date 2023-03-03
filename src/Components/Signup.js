@@ -27,7 +27,7 @@ const Signup = (props) => {
       // To Prevent the page from reloading when the Form is submitted
         e.preventDefault();
         // Making a POST: Request to an Api to create a User on the Database
-        const response = await fetch("https://inotebookbackends.herokuapp.com/api/v1/auth/createuser", {
+        const response = await fetch("https://neon-rocky-continent.glitch.me/api/v1/auth/createuser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
