@@ -12,16 +12,21 @@ export default function NoteState(props) {
 const {showToast} = props;
   // Functton for fetching All Notes
   const getNotes = async () => {
-    const response = await fetch(`${host}/api/v1/notes/fetchallnotes`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": localStorage.getItem("token"),
-      },
-    });
-    const json = await response.json();
-    console.log(json);
-    setNotes(json);
+    try {
+      const response = await fetch(`${host}/api/v1/notes/fetchallnotes`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("token"),
+        },
+      });
+      const json = await response.json();
+      console.log(json);
+      setNotes(json);
+    } catch (error) {
+      showToast.error("There was an Error retrieving your notes")
+    }
+    
     // setLoading(false);
   };
 // 

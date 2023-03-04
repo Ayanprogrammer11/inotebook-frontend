@@ -46,20 +46,25 @@ const {showToast} = props;
   // Fetch data to say Welcome, {userName} to the user
  
   useEffect(() => {
-    const fetchData = async () =>{
-      const response = await fetch("https://neon-rocky-continent.glitch.me/api/v1/auth/getuser", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "auth-token": localStorage.getItem("token")
-        }
-      })
-      const json = await response.json();
-      setUserName(Capitalize(getFirstName(json.name)))
+    try {
+      const fetchData = async () =>{
+        const response = await fetch("https://neon-rocky-continent.glitch.me/api/v1/auth/getuser", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "auth-token": localStorage.getItem("token")
+          }
+        })
+        const json = await response.json();
+        setUserName(Capitalize(getFirstName(json.name)))
+      }
+  
+      // Call the function to Fetch the Data
+      fetchData();
+    } catch (error) {
+      showToast.error("There was an error retrieving notes")
     }
-
-    // Call the function to Fetch the Data
-    fetchData();
+    
 
    }, [location.pathname])
 
