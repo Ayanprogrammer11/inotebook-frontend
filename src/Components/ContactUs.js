@@ -63,7 +63,7 @@ const handleSubmit = async (e) => {
                 fetching: false
             });
         });
-    }, [])
+    }, [Navigate, setProgress])
 
 
 

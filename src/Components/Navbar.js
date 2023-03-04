@@ -66,7 +66,7 @@ const {showToast} = props;
     }
     
 
-   }, [location.pathname])
+   }, [location.pathname, showToast])
 
 
 

@@ -13,7 +13,7 @@ const Login = (props) => {
         Navigate("/");
         showToast.success("Already Logged In");
       } 
-    }, [])
+    }, [Navigate, showToast])
     
     const handleSubmit = async (e) => {
       setLoading(true);
