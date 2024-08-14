@@ -34,14 +34,6 @@ const checkAuth = () => {
         
     </section>
 
-    <section class="bg-white">
-        <div class="mx-auto max-w-screen-xl px-4 py-8 lg:py-16">
-            <h2 class="mb-8 text-center text-3xl font-extrabold leading-tight tracking-tight text-gray-900 md:text-4xl lg:mb-16">You’ll be in good App</h2>
-            <div class="grid grid-cols-2 gap-8 text-gray-500 sm:gap-12 md:grid-cols-3 lg:grid-cols-6">
-                
-            </div>
-        </div>
-    </section>
 
     <section class="bg-gray-50">
         <div class="mx-auto max-w-screen-xl px-4 py-8 sm:py-16 lg:px-6">
