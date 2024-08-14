@@ -1,136 +1,127 @@
 import React, { useContext, useEffect, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom';
 import noteContext from '../context/notes/noteContext';
 import AddNote from './AddNote';
 import Loading from './Loading';
 import NoteItem from './NoteItem';
-import { useNavigate } from 'react-router-dom';
 
-const Notes = (props) => {
-  const Navigate = useNavigate();
-  const {setProgress, showToast} = props;
-    const context = useContext(noteContext);
-  let {notes, getNotes, editNote} = context;
+const Notes = ({ setProgress, showToast }) => {
+  const navigate = useNavigate();
+  const context = useContext(noteContext);
+  let { notes, getNotes, editNote } = context;
   const [loading, setLoading] = useState(true);
-  const [note, setNote] = useState({id: "", etitle: "", edescription: "", etag: ""});
+  const [note, setNote] = useState({ id: "", etitle: "", edescription: "", etag: "" });
 
-
-  useEffect( () => {
-    if(localStorage.getItem("token")) {
-      setProgress(20);
-     
-        getNotes().then(() => {
-          setProgress(100);
-          setLoading(false);
-        }).catch(() => {
-          setProgress(0);
-          showToast.error("Error Occured")
-        });
-
-     
- 
-      
-    }
-      else {
-        Navigate("/login")
-      }
-      // eslint-disable-next-line
-  }, [])
-  const updatenote = (currentNote) => {
-    ref.current.click();
-    setNote({id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag});
-  }
   const ref = useRef();
   const refClose = useRef();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      setProgress(20);
+      getNotes()
+        .then(() => {
+          setProgress(100);
+          setLoading(false);
+        })
+        .catch(() => {
+          setProgress(0);
+          showToast.error("Error Occurred")
+        });
+    } else {
+      navigate("/login")
+    }
+  }, [])
+
+  const updatenote = (currentNote) => {
+    ref.current.click();
+    setNote({ id: currentNote._id, etitle: currentNote.title, edescription: currentNote.description, etag: currentNote.tag });
+  }
+
   const onChange = (event) => {
-    setNote({...note, [event.target.name]: event.target.value})
-}
-const handleClick = (e) => {
-  console.log("Updating the note", note);
+    setNote({ ...note, [event.target.name]: event.target.value })
+  }
+
+  const handleClick = (e) => {
     refClose.current.click();
     showToast.promise(editNote(note.id, note.etitle, note.edescription, note.etag), {
       loading: "Updating Note....",
-          success: <b>Note Updated</b>,
-          error: <b>Error Occured</b>,
-          
+      success: <b>Note Updated</b>,
+      error: <b>Error Occurred</b>,
     })
-   
-    // showAlert("Note Updated", "success");
-}
+  }
+
   return (
     <>
-    <AddNote showToast={showToast}/>
+      <AddNote showToast={showToast} />
 
-    
-    <button type="button"
-  class="px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out hidden"
-  data-bs-toggle="modal" data-bs-target="#staticBackdrop1" ref={ref}>
-  Launch static backdrop modal
-</button>
+      <button type="button"
+        className="hidden rounded bg-blue-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg"
+        data-bs-toggle="modal" data-bs-target="#staticBackdrop1" ref={ref}>
+        Launch static backdrop modal
+      </button>
 
 {/* <!-- Modal --> */}
-<div class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
+<div class="modal fade fixed left-0 top-0 hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
   id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
   aria-labelledby="staticBackdrop1Label" aria-hidden="true">
-  <div class="modal-dialog relative w-auto pointer-events-none">
+  <div class="modal-dialog pointer-events-none relative w-auto">
     <div
-      class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
+      class="modal-content pointer-events-auto relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none">
       <div
-        class="modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md">
+        class="modal-header flex flex-shrink-0 items-center justify-between rounded-t-md border-b border-gray-200 p-4">
         <h5 class="text-xl font-medium leading-normal text-gray-800" id="exampleModalLabel">
           Edit Note
         </h5>
         <button type="button"
-          class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
+          class="btn-close box-content h-4 w-4 rounded-none border-none p-1 text-black opacity-50 hover:text-black hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
           data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body relative p-4">
         {/* Modal body starts here ----------------------- */}
       <form>
-    <div class="grid gap-6 mb-6 md:grid-cols-1">
+    <div class="mb-6 grid gap-6 md:grid-cols-1">
         <div>
-            <label for="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Title</label>
-            <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tite" required="" name="etitle" value={note.etitle} onChange={onChange}/>
+            <label for="first_name" class="mb-2 block text-sm font-medium text-gray-900">Title</label>
+            <input type="text" id="first_name" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500" placeholder="Tite" required="" name="etitle" value={note.etitle} onChange={onChange}/>
         </div>
         <div>
-            <label for="last_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Description</label>
-            <input type="text" id="last_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Description" required="" value={note.edescription} onChange={onChange} name="edescription"/>
+            <label for="last_name" class="mb-2 block text-sm font-medium text-gray-900">Description</label>
+            <input type="text" id="last_name" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500" placeholder="Description" required="" value={note.edescription} onChange={onChange} name="edescription"/>
         </div>
         <div>
-            <label for="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tag</label>
-            <input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Tag" required="" value={note.etag} onChange={onChange} name="etag"/>
+            <label for="company" class="mb-2 block text-sm font-medium text-gray-900">Tag</label>
+            <input type="text" id="company" class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500" placeholder="Tag" required="" value={note.etag} onChange={onChange} name="etag"/>
         </div>  
     </div>
 </form>
 {/* Modal body ends here --------------------------------------------- */}
       </div>
       <div
-        class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md">
+        class="modal-footer flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t border-gray-200 p-4">
         <button type="button"
-          class="inline-block px-6 py-2.5 bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg transition duration-150 ease-in-out"
+          class="inline-block rounded bg-purple-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg"
           data-bs-dismiss="modal" ref={refClose}>Close</button>
         <button type="button"
-          class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out ml-1" onClick={handleClick} disabled={note.etitle.length < 5 || note.edescription.length < 5 || note.etag.length < 5}>Update Note</button>
+          class="ml-1 inline-block rounded bg-blue-600 px-6 py-2.5 text-xs font-medium uppercase leading-tight text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg" onClick={handleClick} disabled={note.etitle.length < 5 || note.edescription.length < 5 || note.etag.length < 5}>Update Note</button>
       </div>
     </div>
   </div>
 </div>
- <h2 className="text-4xl text-black font-extrabold">Your Notes</h2>
-{/* <div className="text-center text-1xl my-4">
-        {notes.length === 0 && <p className='text-muted font-weight-bold'>No Notes to Display</p>}
-        </div> */}
-        {<Loading /> && loading === true ? <Loading /> : 
-        
-        <div class="mx-auto container py-10 px-6 mx-50">
-            <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-       {notes.length === 0 ? "No Notes to Display" : ""}
-        {notes.map((note) => {
-          return <NoteItem note={note} key={note._id} updatenote={updatenote} showToast={showToast}/>;
-        })}
-        </div>
-        </div>
-        }
 
-        </>
+ <h2 className="text-4xl font-extrabold text-black">Your Notes</h2>
+      
+      {loading ? <Loading /> : (
+        <div className="container mx-auto px-6 py-10">
+          <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {notes.length === 0 ? "No Notes to Display" : (
+              notes.map((note) => (
+                <NoteItem note={note} key={note._id} updatenote={updatenote} showToast={showToast} />
+              ))
+            )}
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 

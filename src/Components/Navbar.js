@@ -1,210 +1,66 @@
-// Importing React Hooks
-import React, { useState, useEffect, useRef } from 'react';
-
-// Importing react-router-dom hooks
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-// Importing my hand-written functions which become useful in some cases (in order not to write the code again and again)
-import { Capitalize, getFirstName } from "../UsefulFunctions"
-
-
-const Navbar = (props) => {
-const location = useLocation();
-  const checkAuth = () => {
-    if(!localStorage.getItem("token")) {
-      Navigate("/login")
-    } else {
-      Navigate("/home");
-    }
-  }
-
-const {showToast} = props;
-  // States
+ const host = "https://screeching-kitti-ayanliaqat-8e939237.koyeb.app";
+const Navbar = ({ showToast }) => {
+ 
   const [userName, setUserName] = useState("");
-  // eslint-disable-next-line
-  const [feedback, setFeedback] = useState({email: "", title: "", message: ""});
-
-
-
-// Use Ref
-// eslint-disable-next-line
-  const closeModal = useRef(null);
-
-
-     
-  // Using the useNavigate hoook to navigate through web pages
-  const Navigate = useNavigate();
-
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    Navigate("/login");
-    showToast.success("Logged out Successfully")
-  }
+    navigate("/login");
+    showToast.success("Logged out Successfully");
+  };
 
-
-  // Fetch data to say Welcome, {userName} to the user
- 
   useEffect(() => {
-    try {
-      const fetchData = async () =>{
-        const response = await fetch("https://neon-rocky-continent.glitch.me/api/v1/auth/getuser", {
-          method: "POST",
-          headers: {
+    const fetchUserData = async () => {
+      if (localStorage.getItem("token")) {
+        try {
+          const response = await fetch(`${host}/api/v1/auth/getuser`, {
+            method: "POST",
+            headers: {
               "Content-Type": "application/json",
               "auth-token": localStorage.getItem("token")
-          }
-        })
-        const json = await response.json();
-        setUserName(Capitalize(getFirstName(json.name)))
+            }
+          });
+          const json = await response.json();
+          setUserName(json.name);
+        } catch (error) {
+          showToast.error("There was an error retrieving user data");
+        }
       }
-  
-      // Call the function to Fetch the Data
-      fetchData();
-    } catch (error) {
-      showToast.error("There was an error retrieving notes")
-    }
-    
+    };
 
-   }, [location.pathname, showToast])
-
-
+    fetchUserData();
+  }, [showToast]);
 
   return (
-    <>
-     
-     <nav class=" w-full flex flex-wrap items-center justify-between py-3 bg-gray-900 text-gray-200 shadow-lg navbar navbar-expand-lg navbar-light">
-  <div class="container-fluid w-full flex flex-wrap items-center justify-between px-6">
-  <button class="navbar-toggler text-gray-200 border-0 hover:shadow-none hover:no-underline py-1 px-1 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none focus:no-underline" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent1" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"s>
-      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars" class="w-6" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        <path fill="currentColor" d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
-      </svg>
-      </button>
-    <div class="collapse navbar-collapse flex-grow items-center" id="navbarSupportedContent1">
-      <Link class="text-xl text-white pr-2 font-semibold" to="/">iNotebook</Link>
-      <ul class="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
-        <li class="nav-item p-2">
-
-    
-
-          <button class="nav-link text-white" onClick={checkAuth}>Home</button>
-        </li>
-
-          {/* Link for About */}
-        {/* <li class="nav-item p-2">
-          <Link class="nav-link text-white" to="/about">About</Link>
-
-
-        </li> */}
-        <li class="nav-item p-2">
-          <Link class="nav-link text-white" to={!localStorage.getItem("token") ? "/login" : "/contactus"}>Contact Us</Link>
-        </li>
-      </ul>
-      {/* if the user is not logged in then show this in the navbar */}
-      {!localStorage.getItem("token") ?  <div className="flex flex-end">
-    <Link to="/login" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 mx-2">
-      Login
-    </Link>
-    <Link to="/signup" className="text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-      Signup
-    </Link>
-    </div> :
-    // If the user is Logged in then Show this 
-    <div class="flex justify-center">
-    <div>
-      <div class="dropdown relative">
-        <button class=" dropdown-toggle px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Welcome, {userName}</button>
-        <ul class=" dropdown-menu min-w-max hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none"
-          aria-labelledby="dropdownMenuButton1">
-          <li>
-            <Link to="/contactus" class=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100">Contact us</Link
-            >
-          </li>
-          <li>
-            <Link class=" dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" to="/myaccount">My Account</Link>
-          </li>
-          <li>
-            <button class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" onClick={handleLogout}>Logout</button>
-          </li>
-        </ul>
+    <nav className="bg-gray-800 p-4">
+      <div className="container mx-auto flex items-center justify-between">
+        <Link to="/" className="text-xl font-bold text-white">iNotebook</Link>
+        <div className="flex items-center">
+          <Link to="/" className="mx-2 text-white">Home</Link>
+          <Link to="/contactus" className="mx-4 text-white">Contact Us</Link>
+          {!localStorage.getItem("token") ? (
+            <>
+              <Link to="/login" className="mx-2 rounded bg-blue-500 px-4 py-2 text-white">Login</Link>
+              <Link to="/signup" className="mx-2 rounded bg-green-500 px-4 py-2 text-white">Signup</Link>
+            </>
+          ) : (
+            <div className="group relative">
+              <button className="rounded bg-blue-500 px-4 py-2 text-white">
+                Welcome, {userName}
+              </button>
+              <div className="absolute right-0 mt-2 hidden w-48 rounded-md bg-white shadow-lg group-hover:block">
+                <Link to="/myaccount" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Account</Link>
+                <button onClick={handleLogout} className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100">Logout</button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  </div>
-    
-    }
+    </nav>
+  );
+};
 
-
-
-    </div>
-    </div> 
-</nav> 
-    
-       
-
-    {/* <nav className="navbar navbar-expand-lg navbar-dark bg-dark sticky">
-  <div className="container-fluid">
-    <button className="navbar-brand" href="/">iNotebook</button>
-    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span className="navbar-toggler-icon"></span>
-    </button>
-    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-        <li className="nav-item">
-          <Link className={`nav-link ${location.pathname === "/" ? "active" : ""}`} aria-current="page" to="/">Home</Link>
-        </li>
-        <li className="nav-item">
-          <Link className={`nav-link ${location.pathname === "/about" ? "active" : ""}`} to="/about">About</Link>
-        </li>
-      </ul>
-      {!localStorage.getItem("token")?<form className="d-flex">
-        
-        <Link className={`btn btn-outline-danger mx-2 ${location.pathname === "/login" ? "disabled" : ""}`} to="/login">Login</Link>
-        <Link className={`btn btn-outline-primary ${location.pathname === "/signup" ?"disabled" : ""}`} to="/signup">Signup</Link>
-      </form>: 
-      <div class="flex justify-center">
-  <div>
-    <div class="dropdown relative">
-      <button
-        class=" dropdown-toggle px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap mx-2
-        "
-        href="/"
-        type="button"
-        id="dropdownMenuButton2"
-        data-bs-toggle="dropdown"
-        aria-expanded="false"
-      >
-        Welcome, {userName}
-          <path
-            fill="currentColor"
-            d="M31.3 192h257.3c17.8 0 26.7 21.5 14.1 34.1L174.1 354.8c-7.8 7.8-20.5 7.8-28.3 0L17.2 226.1C4.6 213.5 13.5 192 31.3 192z"
-          ></path>
-      </button>
-      <ul
-        class=" dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none
-        "
-        aria-labelledby="dropdownMenuButton2"
-      >
-        <li>
-          <button class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" href="/">Feedback</button>
-        </li>
-        <li>
-          <Link class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100" to="/myaccount" >My Profile</Link>
-        </li>
-        <li>
-          <button class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-trans ext-gray-700 hover:bg-gray-100" href="/" onClick={handleLogout}>Logout</button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>}
-</div>
-</div>
-</nav> */}
-
-      
-
-    </>
-  )
-}
-
-export default Navbar
+export default Navbar;

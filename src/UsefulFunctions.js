@@ -22,7 +22,7 @@ const sumTwo = (num1, num2) => {
  * @param {string} str - Converts the first letter of a string to Uppercase 
  */
 const Capitalize = (str) => {
-        return str.charAt(0).toUpperCase() + str.slice(1)
+        return str;
 }
 
 /**
@@ -58,8 +58,7 @@ const containingNumber = (str) => {
 }
 
 const getFirstName = (string) => {
-    const sliced = string.split(" ");
-    return sliced[0]
+    return string;
  }
 
 module.exports = {sumTwo, Capitalize, Truncate , getFirstName, containingNumber}

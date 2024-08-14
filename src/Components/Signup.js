@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 const Signup = (props) => {
+  // Main Host
+  const host = "https://screeching-kitti-ayanliaqat-8e939237.koyeb.app";
   const {showToast} = props;
     const [credentials, setCredentials] = useState({name: "", email: "", password: ""});
     const [ing, setIng] = useState("Signup");
@@ -27,7 +29,7 @@ const Signup = (props) => {
       // To Prevent the page from reloading when the Form is submitted
         e.preventDefault();
         // Making a POST: Request to an Api to create a User on the Database
-        const response = await fetch("https://neon-rocky-continent.glitch.me/api/v1/auth/createuser", {
+        const response = await fetch(`${host}/api/v1/auth/createuser`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -78,7 +80,7 @@ const Signup = (props) => {
 
   return (
     <>
-    <div class="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="flex min-h-full items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
   <div class="w-full max-w-md space-y-8">
     <div>
       
@@ -105,7 +107,7 @@ const Signup = (props) => {
      
 
       <div>
-        <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        <button type="submit" class="group relative flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
           <span class="absolute inset-y-0 left-0 flex items-center pl-3" disabled={loading}>
 
              <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

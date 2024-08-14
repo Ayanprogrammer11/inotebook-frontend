@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import noteContext from "./noteContext";
 export default function NoteState(props) {
   // Main Host
-  const host = "https://neon-rocky-continent.glitch.me";
+  const host = "https://screeching-kitti-ayanliaqat-8e939237.koyeb.app";
   // An Array where notes will be stored after getNotes function get triggered (When Api is called)
   const initialNotes = [];
   // A State to Set Notes after different actions
